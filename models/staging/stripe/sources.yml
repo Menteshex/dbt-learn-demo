@@ -1,0 +1,7 @@
+version: 2
+
+sources:
+  - name: dbt_dmenteshashvili
+    database: first-dbt-project-387710
+    tables:
+      - name: payments

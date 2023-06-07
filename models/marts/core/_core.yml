@@ -1,0 +1,11 @@
+version: 2
+
+models:
+- name: stg_jaffle_shop__orders
+  description: nothing special
+
+  columns:
+    - name: amount
+      description: neeh
+      tests:
+        - assert_dollars_spent_are_greater_than_one

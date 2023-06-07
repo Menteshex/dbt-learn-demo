@@ -2,10 +2,31 @@ version: 2
 
 models:
 - name: stg_jaffle_shop__orders
-  description: nothing special
-
+  description: Complete orders model including the amount associated with each order.
   columns:
     - name: amount
-      description: neeh
+      description: Dollars spent per order
       tests:
-        - assert_dollars_spent_are_greater_than_one
+      # - assert_dollars_spent_are_greater_than_one
+        - dbt_expectations.expect_column_values_to_be_between:
+          # this will perform what the dbt_utils.expression-is-true test does!
+            min_value: 0
+            row_condition: "order_id is not null" 
+            strictly: false
+        - dbt_expectations.expect_column_mean_to_be_between: 
+        # this will perform what our singular and generic tests do!
+            min_value: 1
+            group_by: [customer_id] 
+            row_condition: "order_id is not null" # (Optional)
+            strictly: false
+
+
+- name: stg_jaffle_shop__customers
+  description: One record per customer
+  columns:
+    - name: customer_id
+      description: Primary key
+      tests:
+        - dbt_utils.cardinality_equality:
+            field: customer_id
+            to: ref('stg_jaffle_shop__customers')

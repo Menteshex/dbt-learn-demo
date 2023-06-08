@@ -5,3 +5,19 @@ sources:
     database: first-dbt-project-387710
     tables:
       - name: payments
+        columns:
+          - name: payment_id
+            tests:
+              - unique:
+                  config:
+                    severity: error
+                    error_if: ">100"
+                    warn_if: ">10"
+          
+          - name: payment_status
+            tests:
+              - unique:
+                  config:
+                    where: "payment_status = 'success'"
+                    limit: 10
+                    store_faillures: True

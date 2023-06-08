@@ -1,3 +1,9 @@
+{{
+    config(
+        store_failures=True
+    )
+}}
+
 select
     customer_id, 
     count(amount) as total_amount
